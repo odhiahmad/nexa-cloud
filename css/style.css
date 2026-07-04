@@ -251,7 +251,7 @@ button { font-family: inherit; cursor: pointer; }
   overflow: hidden;
   padding-top: 76px; /* room for the transparent navbar */
   background:
-    url("../assets/images/hero-glow.png") no-repeat right top / cover,
+    url("../assets/images/hero-glow.png") no-repeat right top / auto 100%,
     linear-gradient(180deg, #F0EEF9 0%, #F2EFFC 55%, #E8E0FC 100%);
 }
 
