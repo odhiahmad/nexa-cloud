@@ -408,18 +408,6 @@ button { font-family: inherit; cursor: pointer; }
    Hatched rails + corner dots (shared by Stats & Why sections)
    ========================================================================== */
 
-.hatch-rail {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: max(24px, calc((100vw - var(--container)) / 2));
-  background: url("../assets/images/hatch.png") repeat;
-  background-size: 45px auto;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.hatch-left { left: 0; }
-.hatch-right { right: 0; }
-
 .corner-dot {
   position: absolute;
   width: 7px;
