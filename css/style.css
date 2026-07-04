@@ -270,7 +270,9 @@ button { font-family: inherit; cursor: pointer; }
   top: 0;
   mix-blend-mode: plus-lighter;
   pointer-events: none;
-  opacity: .9;
+  opacity: .65;
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 0%, #000 35%, transparent 85%);
+          mask-image: radial-gradient(120% 100% at 50% 0%, #000 35%, transparent 85%);
 }
 .hero-beam-left { left: 0; }
 .hero-beam-right { right: 0; }
@@ -378,13 +380,15 @@ button { font-family: inherit; cursor: pointer; }
 .hero-art::after {
   content: "";
   position: absolute;
-  right: -20%;
-  bottom: -14%;
-  width: 90%;
-  height: 70%;
+  right: -24%;
+  bottom: -16%;
+  width: 110%;
+  height: 78%;
   background: url("../assets/images/iso-grid.png") no-repeat center / cover;
-  opacity: .8;
+  opacity: .45;
   pointer-events: none;
+  -webkit-mask-image: radial-gradient(closest-side at 55% 45%, #000 30%, transparent 82%);
+          mask-image: radial-gradient(closest-side at 55% 45%, #000 30%, transparent 82%);
 }
 .hero-art img {
   position: relative;
