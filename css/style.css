@@ -244,25 +244,43 @@ button { font-family: inherit; cursor: pointer; }
 
 /* background = actual gradient art exported from Figma (blends exactly like the design);
    the linear-gradient fills whatever is left of the image and matches its left-edge colors */
-/* background = actual gradient art exported from Figma; cover keeps the arc
-   pinned to the right edge at any viewport width without seams */
 .hero {
   position: relative;
   overflow: hidden;
   padding-top: 76px; /* room for the transparent navbar */
-  background:
-    url("../assets/images/hero-glow.png") no-repeat right top / auto 100%,
-    linear-gradient(180deg, #F0EEF9 0%, #F2EFFC 55%, #E8E0FC 100%);
+  background: linear-gradient(180deg, #F0EEF9 0%, #F2EFFC 55%, #E8E0FC 100%);
 }
 
-/* isometric tile pattern under the server stack — position taken from Figma (x765 y314 @1440) */
+/* actual gradient art exported from Figma, anchored to the container center
+   (like the stack) so the arc keeps its designed position at any viewport width;
+   at 1440 it spans x83..1444 exactly as in the design */
+.hero-glow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 637px);
+  width: 1361px;
+  background: url("../assets/images/hero-glow.png") no-repeat center / 100% 100%;
+  pointer-events: none;
+}
+@media (min-width: 1460px) {
+  /* on ultrawide screens the art ends before the viewport edge — fade it out */
+  .hero-glow {
+    -webkit-mask-image: linear-gradient(90deg, #000 94%, transparent 100%);
+            mask-image: linear-gradient(90deg, #000 94%, transparent 100%);
+  }
+}
+
+/* isometric tile pattern under the server stack — Figma x765 y314 @1440,
+   anchored to the container center like the glow art */
 .hero::before {
   content: "";
   position: absolute;
-  right: -167px;
-  bottom: -97px;
+  left: calc(50% + 45px);
+  top: 390px;
   width: 846px;
   height: 574px;
+  z-index: 1;
   background: url("../assets/images/hero-tiles.png") no-repeat center / 100% 100%;
   pointer-events: none;
   -webkit-mask-image: radial-gradient(75% 75% at 50% 50%, #000 55%, transparent 98%);
@@ -688,72 +706,62 @@ button { font-family: inherit; cursor: pointer; }
   margin: 24px 32px 0;
 }
 
+/* card colors/geometry from Figma node 84:432 */
 .db-card {
   position: relative;
-  border-radius: 20px;
-  padding: 36px 32px;
+  border-radius: 18px;
+  padding: 26px 24px;
   color: #fff;
-  background:
-    radial-gradient(340px 260px at 85% -10%, rgba(255,255,255,.16), transparent 60%),
-    linear-gradient(160deg, #6822E0 0%, #4B12C1 45%, #38089E 100%);
+  background: linear-gradient(180deg, #450E9D 0%, #670CCA 100%);
+  border: 1px solid var(--border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-.db-card h3 { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
-.db-card p { color: #DCD2F5; font-size: 15.5px; }
+.db-card h3 { font-size: 25px; font-weight: 600; margin-bottom: 12px; }
+.db-card p { color: #E3DAF8; font-size: 15.5px; line-height: 1.55; }
 
 .db-card-visual { margin-top: 28px; }
 
-/* card 1 — lightning + radar rings */
+/* card 1 — lightning tile + concentric rounded-square rings (Figma 84:437) */
 .db-visual-bolt {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 230px;
-}
-.bolt-frame {
-  position: relative;
-  z-index: 2;
-  width: min(100%, 330px);
-  aspect-ratio: 1.08;
-  margin-bottom: -84px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 34px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.16);
-  box-shadow: 0 30px 60px -30px rgba(5,0,30,.45);
+  min-height: 300px;
+  margin-bottom: -56px;
 }
 
 .bolt-tile {
-  display: inline-flex;
-  width: 178px;
-  height: 178px;
+  position: relative;
+  z-index: 2;
+  width: 170px;
+  height: 170px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 40px;
-  background: linear-gradient(160deg, rgba(255,255,255,.26), rgba(255,255,255,.08));
-  border: 1px solid rgba(255,255,255,.3);
-  box-shadow: 0 24px 48px -18px rgba(10,0,40,.55), inset 0 1px 0 rgba(255,255,255,.35);
+  border-radius: 42px;
+  background: #8859C3;
+  border: 1.3px solid #9292AF;
+  box-shadow:
+    0 33px 27px -1px rgba(0,0,0,.2),
+    inset 0 -1.3px 1.3px 1.3px rgba(204,199,199,.2),
+    inset 0 1.3px 1.3px 1.3px rgba(204,199,199,.2);
 }
-.bolt-tile img { width: 96px; }
+.bolt-tile img { width: 80px; transform: rotate(10deg); }
 .db-visual-bolt .ring {
   position: absolute;
   left: 50%;
-  top: 55%;
+  top: 50%;
   transform: translate(-50%, -50%);
-  border: 1.5px solid rgba(255,255,255,.22);
-  border-radius: 50%;
+  border: 1.3px solid #9292AF;
 }
-.ring.r1 { width: 240px; height: 240px; }
-.ring.r2 { width: 340px; height: 340px; }
-.ring.r3 { width: 440px; height: 440px; }
-.ring.r4 { width: 540px; height: 540px; }
+.ring.r1 { width: 223px; height: 223px; border-radius: 69px;  opacity: .4; }
+.ring.r2 { width: 276px; height: 276px; border-radius: 95px;  opacity: .2; }
+.ring.r3 { width: 329px; height: 329px; border-radius: 122px; opacity: .1; }
+.ring.r4 { width: 382px; height: 382px; border-radius: 148px; opacity: .05; }
 
 /* card 2 — analytic panel */
 .db-card-analytic { padding-top: 64px; }
@@ -821,9 +829,10 @@ button { font-family: inherit; cursor: pointer; }
           mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
 
-.chip-row { display: flex; gap: 12px; width: max-content; margin-bottom: 12px; }
+.chip-row { display: flex; gap: 16px; width: max-content; margin-bottom: 16px; }
 .row-a { animation: marquee 22s linear infinite; }
 .row-b { animation: marquee 22s linear infinite reverse; }
+.row-c { animation: marquee 26s linear infinite; }
 
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -833,16 +842,16 @@ button { font-family: inherit; cursor: pointer; }
 .db-chip {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  border-radius: 12px;
+  gap: 14px;
+  padding: 14px 24px;
+  border-radius: 14px;
   background: rgba(255,255,255,.12);
   border: 1px solid rgba(255,255,255,.16);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   white-space: nowrap;
 }
-.db-chip img, .db-chip svg { width: 26px; height: 26px; border-radius: 6px; object-fit: contain; }
+.db-chip img, .db-chip svg { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
 
 /* ==========================================================================
    How it works
@@ -1126,6 +1135,7 @@ button { font-family: inherit; cursor: pointer; }
 
 .cta-section { padding: 40px 0 96px; }
 
+/* background + pixel mosaic exported straight from Figma (node 84:1258) */
 .cta-card {
   position: relative;
   overflow: hidden;
@@ -1133,42 +1143,27 @@ button { font-family: inherit; cursor: pointer; }
   padding: 88px 32px 110px;
   text-align: center;
   color: #fff;
-  background:
-    radial-gradient(800px 400px at 50% 120%, rgba(75,18,193,.4), transparent 70%),
-    #0A0616;
+  background: url("../assets/images/cta-mosaic.png") no-repeat center bottom / cover, #0B0714;
 }
 
-/* light beams from the top corners (per Figma) */
+/* corner light beams — the actual beam vectors from Figma (node 84:1283),
+   original on the right, mirrored for the left corner */
 .cta-card::before,
 .cta-card::after {
   content: "";
   position: absolute;
-  top: -30%;
-  width: 26%;
-  height: 130%;
-  background: linear-gradient(180deg, rgba(151,106,251,.55) 0%, rgba(139,92,246,.22) 42%, rgba(139,92,246,0) 72%);
-  filter: blur(26px);
+  top: 0;
+  bottom: 0;
+  width: 52.4%;
+  background: url("../assets/images/cta-beams.svg") no-repeat right top / cover;
   pointer-events: none;
 }
 .cta-card::before {
-  left: -4%;
-  transform: rotate(38deg);
-  transform-origin: top left;
+  left: 0;
+  transform: scaleX(-1);
+  opacity: .8;
 }
-.cta-card::after {
-  right: -4%;
-  transform: rotate(-38deg);
-  transform-origin: top right;
-}
-
-.cta-pixels {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  width: 100%;
-  height: 170px;
-  opacity: .85;
-  pointer-events: none;
-}
+.cta-card::after { right: 0; }
 
 .cta-logo {
   position: relative;
@@ -1314,6 +1309,8 @@ button { font-family: inherit; cursor: pointer; }
         transparent 90%),
       linear-gradient(180deg, #F0EEF9 0%, #F2EFFC 55%, #E8E0FC 100%);
   }
+  .hero-glow { display: none; }
+  .hero::before { left: auto; right: -167px; top: auto; bottom: -97px; }
 
   .hero-inner { grid-template-columns: 1fr; padding-top: 48px; }
   .hero-art { order: 2; }
