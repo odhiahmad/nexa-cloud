@@ -151,8 +151,13 @@
 
     for (var y = 0; y < rows; y++) {
       for (var x = 0; x < cols; x++) {
-        // density grows toward the "edge" the effect anchors to
-        var t = options.fromBottom ? y / rows : x / cols;
+        // density grows toward the corner/edge the effect anchors to
+        var tx = 1, ty = 1;
+        if (options.anchorX === "right") tx = x / cols;
+        if (options.anchorX === "left") tx = 1 - x / cols;
+        if (options.anchorY === "bottom") ty = y / rows;
+        if (options.anchorY === "top") ty = 1 - y / rows;
+        var t = tx * ty;
         if (Math.random() > t * options.density) continue;
 
         ctx.globalAlpha = 0.15 + Math.random() * 0.7 * t;
@@ -166,9 +171,11 @@
 
   function paintAllPixels() {
     var cta = document.querySelector(".cta-pixels");
-    var foot = document.querySelector(".footer-pixels");
-    if (cta) drawPixels(cta, { cell: 14, density: 0.75, fromBottom: true });
-    if (foot) drawPixels(foot, { cell: 13, density: 0.55, fromBottom: false });
+    var footRight = document.querySelector(".footer-pixels");
+    var footLeft = document.querySelector(".footer-pixels-left");
+    if (cta) drawPixels(cta, { cell: 14, density: 0.75, anchorY: "bottom" });
+    if (footRight) drawPixels(footRight, { cell: 13, density: 0.7, anchorX: "right", anchorY: "top" });
+    if (footLeft) drawPixels(footLeft, { cell: 13, density: 0.65, anchorX: "left", anchorY: "bottom" });
   }
 
   paintAllPixels();
