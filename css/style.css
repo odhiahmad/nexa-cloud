@@ -502,8 +502,10 @@ button { font-family: inherit; cursor: pointer; }
   top: 0;
   bottom: 0;
   width: max(0px, calc((100% - 1340px) / 2));
-  background: repeating-linear-gradient(135deg, #E0DAEE 0 1.5px, transparent 1.5px 10px);
+  background: repeating-linear-gradient(22.5deg, #E0DAEE 0 2px, transparent 2px 13px);
   pointer-events: none;
+  /* paint above the white container background so the rail reaches the frame line */
+  z-index: 1;
 }
 .hatch.left { left: 0; }
 .hatch.right { right: 0; }
